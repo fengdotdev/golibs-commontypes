@@ -1,49 +1,39 @@
 package email
 
-
 type Email struct {
 	email   string
 	isValid bool
 	err     error
 }
 
-func NewEmail(email string) Email {
-	return Email{
-		email:   email,
-		isValid: false,
-		err:     nil,
-	}
+
+
+func (e *Email) IsEmpty() bool {
+	return e.email == ""
 }
 
-func NewEmailWithValidation(email string) (Email, error) {
-	mayemail := NewEmail(email)
-	if !mayemail.IsValid() {
-		return Email{
-			email:   email,
-			isValid: false,
-			err:     ErrInvalidEmailFormat,
-		}, ErrEmailInvalid
-	}
-	return mayemail, nil
+func (e *Email) Contains(s string) bool {
+	panic("implement me")
 }
 
-func (e *Email) GetEmail() string {
-	return e.email
+func (e *Email) ContainsArrow() bool {
+	return e.Contains("@")
 }
 
-func (e *Email) IsValid() bool {
-	if len(e.email) == 0 {
+func (e *Email) Validate() {
+
+	if e.IsEmpty() {
 		e.err = ErrEmailEmpty
-		return false
+		return
 	}
-	for _, char := range e.email {
-		if char == '@' {
-			return true
-		}
+
+	if !e.ContainsArrow() {
+		e.err = ErrInvalidEmailFormat
+		return
 	}
-	return false
+
+	// email is valid
+	e.isValid = true
+	e.err = nil
 }
 
-func (e *Email) String() string {
-	return e.email
-}
