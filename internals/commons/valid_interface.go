@@ -4,5 +4,5 @@ package commons
 
 type ValidInterface interface {
 	IsValid() bool
-	Err() error
+	Error() error
 }
