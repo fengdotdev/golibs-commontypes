@@ -49,12 +49,16 @@ func TestEmail_asUse(t *testing.T) {
 
 	// use external validator
 
+	assert.True(t, mockValidator("foo"))
+	assert.False(t, mockValidator("inc.com"))
 
 	email.SetExternalValidator(mockValidator)
 
 
-	assert.False(t, mockValidator(barCLient.Email.String()))
-	assert.False(t, barCLient.Email.IsValid())
+	// test with external validator
 
-	
+	fooCLient.Email.Validate() 
+	assert.Equal(t, fooCLient.Email.IsValid(), false)
+	assert.Equal(t, fooCLient.Email.Error(), email.ErrEmailInvalid)
+
 }

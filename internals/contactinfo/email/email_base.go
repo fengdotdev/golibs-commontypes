@@ -27,6 +27,10 @@ func (e *Email) String() string {
 	return e.email
 }
 
+
+//  check if the email is valid
+// if the email never was validated, it will be validated now 
+// if the email was validated, it will be returned as is 
 func (e *Email) IsValid() bool {
 	if e.err == ErrEmailNoValidated {
 		e.Validate()

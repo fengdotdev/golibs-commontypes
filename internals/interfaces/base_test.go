@@ -6,7 +6,6 @@ import (
 	"github.com/fengdotdev/golibs-testing/assert"
 )
 
-
 func TestBase_Zero(t *testing.T) {
 
 	zero := BaseMock{}
@@ -21,6 +20,12 @@ func TestBase_Zero(t *testing.T) {
 		_ = zero.ValueOrPanic()
 	})
 
+	assert.Nil(t, zero.Error())
+
+	// using the default validator
+
+	assert.True(t, zero.IsDefaultValidator())
+	assert.False(t, zero.IsExternalValidator())
 }
 
 func TestBase_Valid(t *testing.T) {
@@ -41,4 +46,12 @@ func TestBase_Valid(t *testing.T) {
 			_ = valid.ValueOrPanic()
 		})
 	})
+
+	assert.True(t, valid.IsDefaultValidator())
+	assert.False(t, valid.IsExternalValidator())
+
+	if valid.Validator() != nil {
+		t.Errorf("Validator should not be nil")
+	}
+
 }

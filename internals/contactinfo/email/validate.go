@@ -2,7 +2,6 @@ package email
 
 var externalValidatorFN func(email string) bool = nil
 
-
 // SetExternalValidator sets the external validator function for email validation.
 // This function will be used to validate the email address if provided.
 // If the function returns false, the email will be considered invalid.
@@ -12,12 +11,16 @@ func SetExternalValidator(fn func(string) bool) {
 	externalValidatorFN = fn
 }
 
-
 // SetExternalValidatorNil sets the external validator function to nil.
 // This will revert to the default validation logic.
 func SetExternalValidatorNil() {
 	externalValidatorFN = nil
 }
+
+// Validate checks if the email is valid.
+
+// It uses the external validator function if provided.
+// If the external validator function is nil, it uses the default validation logic.
 
 func (e *Email) Validate() {
 	// external Validation Have priority
@@ -55,4 +58,11 @@ func (e *Email) Validate() {
 	// email is valid
 	e.isValid = true
 	e.err = nil
+}
+
+func (e *Email) Validator() func(string) bool {
+	if externalValidatorFN != nil {
+		return externalValidatorFN
+	}
+	return nil
 }
