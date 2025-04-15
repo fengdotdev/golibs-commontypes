@@ -1,17 +1,17 @@
 package interfaces
 
-type BaseInterface[T any,OBJ any, DTO any] interface {
-	BaseInterfaceValue[T] // returns the values
+type BaseInterface[CONTENT any, SELF any, DTO any] interface {
+	BaseInterfaceValue[CONTENT] // returns the values
 
-	BaseInterfaceCompare[T] // compares the value with another
+	BaseInterfaceCompare[CONTENT, SELF, DTO] // compares the value with another
 
-	BaseInterfaceClone[OBJ] // returns a new instance of the same type
+	BaseInterfaceClone[CONTENT, SELF, DTO] // returns a new instance of the same type
 
-	BaseInterfaceType[T] // returns the type
+	BaseInterfaceType[CONTENT] // returns the type
 
-	BaseInterfaceInternal[T] // internal methods
+	BaseInterfaceInternal[CONTENT] // internal methods
 
-	BaseInterfaceValidator[T] // returns the validator functions
+	BaseInterfaceValidator[CONTENT] // returns the validator functions
 
 	BaseInterfaceDTO[DTO] // returns the DTO of the value
 }
@@ -25,11 +25,11 @@ type BaseInterfaceValue[T any] interface {
 	String() string // returns the string representation of the value
 }
 
-type BaseInterfaceCompare[T any,Obj any] interface {
-	Compare(other BaseInterface[T]) bool // compares the value with another value of the same type
+type BaseInterfaceCompare[CONTENT any, SELF any, DTO any] interface {
+	Compare(other BaseInterface[CONTENT, SELF, DTO]) bool // compares the value with another value of the same type
 
-	Contains(s string) bool // checks if the value contains the given string
-	EqualTo(other T) bool   // compares the value with another value of the same type
+	Contains(s string) bool     // checks if the value contains the given string
+	EqualTo(other CONTENT) bool // compares the value with another value of the same type
 }
 
 type BaseInterfaceValidator[T any] interface {
@@ -48,8 +48,8 @@ type BaseInterfaceType[T any] interface {
 	GetType() string // returns the type of the value as a string
 }
 
-type BaseInterfaceClone[T any] interface {
-	Clone() BaseInterface[T] // returns a new instance of the same type
+type BaseInterfaceClone[CONTENT any, SELF any, DTO any] interface {
+	Clone() BaseInterface[CONTENT, SELF, DTO] // returns a new instance of the same type
 }
 
 type BaseInterfaceInternal[T any] interface {

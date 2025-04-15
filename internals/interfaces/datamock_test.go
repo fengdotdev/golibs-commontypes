@@ -10,7 +10,7 @@ import (
 // It is not intended to be used in production code.
 // The mock implementation is used to test the behavior of the BaseInterface
 
-type BaseInterface = interfaces.BaseInterface[string]
+type BaseInterface = interfaces.BaseInterface[string, BaseMock, BaseMockDTO]
 
 func fooValid(b BaseInterface) bool {
 	return b.IsValid()
