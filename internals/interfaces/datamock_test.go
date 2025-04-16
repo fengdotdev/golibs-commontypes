@@ -131,9 +131,9 @@ func (b *BaseMock) EqualTo(other string) bool {
 
 //clone
 
-var _ interfaces.BaseInterfaceClone[string] = &BaseMock{}
+var _ interfaces.BaseInterfaceClone = &BaseMock{}
 
-func (b *BaseMock) Clone() interfaces.BaseInterface[string] {
+func (b *BaseMock) Clone() *BaseMock {
 	return &BaseMock{
 		content: b.content,
 		valid:   b.valid,

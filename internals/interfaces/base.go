@@ -1,11 +1,11 @@
 package interfaces
 
-type BaseInterface[CONTENT any, SELF any, DTO any] interface {
-	BaseInterfaceValue[CONTENT] // returns the values
+type BaseInterface[SELF any] interface {
+	BaseInterfaceValue[SELF] // returns the values
 
-	BaseInterfaceCompare[CONTENT, SELF, DTO] // compares the value with another
+	BaseInterfaceCompare[SELF] // compares the value with another
 
-	BaseInterfaceClone[CONTENT, SELF, DTO] // returns a new instance of the same type
+	BaseInterfaceClone // returns a new instance of the same type
 
 	BaseInterfaceType[CONTENT] // returns the type
 
@@ -25,11 +25,11 @@ type BaseInterfaceValue[T any] interface {
 	String() string // returns the string representation of the value
 }
 
-type BaseInterfaceCompare[CONTENT any, SELF any, DTO any] interface {
-	Compare(other BaseInterface[CONTENT, SELF, DTO]) bool // compares the value with another value of the same type
+type BaseInterfaceCompare[SELF any] interface {
+	Compare(other BaseInterfaceCompare[SELF]) bool // compares the value with another value of the same type
 
 	Contains(s string) bool     // checks if the value contains the given string
-	EqualTo(other CONTENT) bool // compares the value with another value of the same type
+	EqualTo(other SELF) bool // compares the value with another value of the same type
 }
 
 type BaseInterfaceValidator[T any] interface {
@@ -48,8 +48,8 @@ type BaseInterfaceType[T any] interface {
 	GetType() string // returns the type of the value as a string
 }
 
-type BaseInterfaceClone[CONTENT any, SELF any, DTO any] interface {
-	Clone() BaseInterface[CONTENT, SELF, DTO] // returns a new instance of the same type
+type BaseInterfaceClone interface {
+	Clone() any // returns a new instance of the same type
 }
 
 type BaseInterfaceInternal[T any] interface {
@@ -57,6 +57,6 @@ type BaseInterfaceInternal[T any] interface {
 	Validate()
 }
 
-type BaseInterfaceDTO[DTO any] interface {
-	GetDTO() DTO // returns the DTO of the value
+type BaseInterfaceDTO interface {
+	GetDTO() any // returns the DTO of the value
 }
