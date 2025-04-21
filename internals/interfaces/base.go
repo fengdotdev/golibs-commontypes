@@ -1,6 +1,6 @@
 package interfaces
 
-type BaseInterface[SELF any] interface {
+type BaseInterface[SELF any, CONTENT any, DTO BaseInterfaceDTO[DTO] ] interface {
 	BaseInterfaceValue[SELF] // returns the values
 
 	BaseInterfaceCompare[SELF] // compares the value with another
@@ -16,47 +16,53 @@ type BaseInterface[SELF any] interface {
 	BaseInterfaceDTO[DTO] // returns the DTO of the value
 }
 
-type BaseInterfaceValue[T any] interface {
-	ValueOrPanic() T // returns the value or panics if the value is not valid
-	ValueOr(or T) T  // returns the value or the given default value
-	ValueOrErr() (T, error)
+// done
+type BaseInterfaceValue[CONTENT any] interface {
+	ValueOrPanic() CONTENT      // returns the value or panics if the value is not valid
+	ValueOr(or CONTENT) CONTENT // returns the value or the given default value
+	ValueOrErr() (CONTENT, error)
 	Error() error   // returns the error if the value is not valid
 	IsValid() bool  // checks if the value is valid
 	String() string // returns the string representation of the value
 }
 
-type BaseInterfaceCompare[SELF any] interface {
-	Compare(other BaseInterfaceCompare[SELF]) bool // compares the value with another value of the same type
-
-	Contains(s string) bool     // checks if the value contains the given string
-	EqualTo(other SELF) bool // compares the value with another value of the same type
+// may
+type BaseInterfaceCompare[SELF any, CONTENT any] interface {
+	Compare(otherType SELF) bool
+	Contains(s string) bool
+	EqualTo(otherContent CONTENT) bool
 }
 
-type BaseInterfaceValidator[T any] interface {
+// done
+type BaseInterfaceValidator[SELF any] interface {
 	// return the validator function // by default it returns nil
-	Validator() func(T) (bool, error)
+	Validator() func(SELF) (bool, error)
 
-	ValidatorDefault() func(T) (bool, error) // returns the default validator function
+	ValidatorDefault() func(SELF) (bool, error) // returns the default validator function
 
-	IsDefaultValidator() bool              // checks if the validator is the default one
-	IsExternalValidator() bool             // checks if the validator is the external one
-	SetValidator(fn func(T) (bool, error)) // sets the validator function
-	SetValidatorNil()                      // sets the validator function to nil
+	IsDefaultValidator() bool                 // checks if the validator is the default one
+	IsExternalValidator() bool                // checks if the validator is the external one
+	SetValidator(fn func(SELF) (bool, error)) // sets the validator function
+	SetValidatorNil()                         // sets the validator function to nil
 }
 
-type BaseInterfaceType[T any] interface {
+// done
+type BaseInterfaceType interface {
 	GetType() string // returns the type of the value as a string
 }
 
-type BaseInterfaceClone interface {
-	Clone() any // returns a new instance of the same type
+// done
+type BaseInterfaceClone[SELF any] interface {
+	Clone() SELF // returns a new instance of the same type
 }
 
-type BaseInterfaceInternal[T any] interface {
+// done
+type BaseInterfaceInternal interface {
 	// validate the value internally
 	Validate()
 }
 
-type BaseInterfaceDTO interface {
-	GetDTO() any // returns the DTO of the value
+// done
+type BaseInterfaceDTO[DTO any] interface {
+	GetDTO() DTO // returns the DTO of the value
 }
